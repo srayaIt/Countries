@@ -1,0 +1,14 @@
+class ountry{
+   
+    constructor(name,cca3 ,flags){
+
+
+
+    }
+}
+
+
+
+
+
+export

@@ -4,26 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/stile.css">
+    <script src="js/app.js" defer></script>
 </head>
 <body>
  <!-- תחילת heder  -->
         <header>
-           <nav>
-            <BUtton id="ID_HOM">🏠</BUtton>
-            <BUtton id="ID_ALL">all</BUtton>
-            <BUtton id="ID_USA">USA</BUtton>
-            <BUtton id="ID_Israel">Israel</BUtton>
-            <BUtton id="ID_Brazil">Brazil</BUtton>
-            <BUtton id="ID_UK">Brazil</BUtton>
-               
-               
-           </nav>
-           <input type="text" id="id_search" >
-           <button onclick="search" >search</button>
-          <label id="" for="">בחר מדינה</label>
-
-
-        </header><p></p>
+ <button class="menu-btn" onclick="toggleMenu()">☰</button>
+ <nav id="navMenu">
+     <button id="ID_HOM">🏠</button>
+     <button id="ID_ALL">All</button>
+     <button id="ID_USA">USA</button>
+     <button id="ID_Israel">Israel</button>
+     <button id="ID_Brazil">Brazil</button>
+     <button id="ID_UK">UK</button>
+ </nav>
+ <input type="text" id="id_search" placeholder="חפש...">
+ <button onclick="searchFunction()">🔍</button>
+        </header>
         <!-- סוף heder  -->
          <!-- תחילת mian -->
           <main></main>
