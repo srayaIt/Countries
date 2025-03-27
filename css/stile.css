@@ -70,4 +70,59 @@ input {
     background-position: center; /* מיקום מרכזי */
     background-repeat: no-repeat;
 
+}#id_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* ממקם כרטיסיות באמצע */
+    gap: 20px; /* רווחים יפים בין הכרטיסיות */
+    padding: 20px;
 }
+
+.card {
+    flex: 1 1 calc(33.333% - 20px); /* עד 3 כרטיסיות בשורה */
+    max-width: 300px; /* לאפשר גודל מקסימלי */
+    min-width: 250px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* הוספת צל */
+    border-radius: 10px; /* עיגול פינות */
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05); /* אפקט התקרבות */
+}
+/* הגדרת רקע תמונה */
+body {
+    background-image: url('path/to/your-image.jpg'); /* כתובת התמונה */
+    background-size: cover; /* התמונה תתאים לרוחב וגובה המסך */
+    background-attachment: fixed; /* התמונה נשארת במקום בעת גלילה */
+    background-position: center center; /* ממקם את התמונה במרכז */
+    margin: 0;
+    padding: 0;
+    height: 100%; /* הגובה יהיה 100% מהמסך */
+}
+
+/* הגדרת הגדרות Header */
+
+/* הגדרת שטח עבור main כדי שלא יוסתר תחת ה-header */
+main {
+    padding-top: 100px; /* רווח מהחלק העליון */
+    min-height: 100vh; /* לפחות גובה המסך */
+    overflow-y: auto; /* גלילה אנכית אם יש צורך */
+}
+
+/* כרטיסיות (cards) */
+.card {
+    margin: 15px; /* רווח בין כרטיסיות */
+    background-color: rgba(255, 255, 255, 0.7); /* רקע עם שקיפות */
+    border-radius: 8px; /* פינות מעוגלות */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* הצללה */
+    overflow: hidden;
+}
+
+/* הגדרת תמונה בכרטיס */
+.card img {
+    width: 100%; /* התמונה תתפוס את כל רוחב הכרטיס */
+    height: auto;
+}
+

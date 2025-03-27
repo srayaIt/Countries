@@ -1,67 +1,60 @@
-import Country from "./classCountry.js"
-import {filterData} from "./app.js"
+import Country from "./classCountry.js";
+import { filterData, AllData } from "./app.js";
 
-export const homeBtn = () => {
+
+
+export const option = async() => {  
+    console.log("אני משוגע");
+    await doApi("https://restcountries.com/v3.1/independent?status=true"); // לוודא שהנתונים קיימים
+    const selectElement = document.getElementById("id_select");
+
+    AllNames.forEach(name => {  // כאן כל option הוא מחרוזת ולא אובייקט
+        const newOption = document.createElement("option");
+        newOption.value = name;  // אין כאן id אז שמים את השם עצמו
+        newOption.textContent = name;
+        selectElement.appendChild(newOption);
+    });
+}
+
+// פונקציה שמוסיפה מאזינים לכל הכפתורים
+export const initButtons = () => {
     document.querySelector("#ID_HOM").addEventListener("click", () => {
-        document.querySelector("#id_row").innerHTML = ""
-        filterData.forEach
-        (item => {
-        creat1(filterData)  })
+        document.querySelector("#id_row").innerHTML = "";
+        renderAllCountries(filterData); // כפתור הבית - מציג את 5 המדינות בלבד
+    });
 
-}
-}
-export const allBtn = () => {
     document.querySelector("#ID_ALL").addEventListener("click", () => {
-        console.log("hey555");
-        document.querySelector("#id_row").innerHTML = ""
-        let country = new Country(filterData[0] , "#id_row");
-       country.render()    })
+        document.querySelector("#id_row").innerHTML = "";
+        renderAllCountries(AllData); // כפתור All - מציג את כל המדינות
+    });
 
-}
-export const IsraelBtn = () => {
-    document.querySelector("#ID_Israel").addEventListener("click", () => {
-        console.log("hey555");
-        document.querySelector("#id_row").innerHTML = ""
-        let country = new Country(filterData[0] , "#id_row");
-       country.render()    })
+    // מאזינים לכל המדינות המועדפות
+    document.querySelector("#ID_Israel").addEventListener("click", () => renderCountryByIndex(4));
+    document.querySelector("#ID_USA").addEventListener("click", () => renderCountryByIndex(2));
+    document.querySelector("#ID_UK").addEventListener("click", () => renderCountryByIndex(1));
+    document.querySelector("#ID_Brazil").addEventListener("click", () => renderCountryByIndex(3));
+    document.querySelector("#ID_Italy").addEventListener("click", () => renderCountryByIndex(0));
+};
 
-}
-export const USABtn = () => {
-    document.querySelector("#ID_USA").addEventListener("click", () => {
-        console.log("hey555");
-        document.querySelector("#id_row").innerHTML = ""
-        let country = new Country(filterData[1] , "#id_row");
-       country.render()    })
+// פונקציה שמציגה את כל המדינות מתוך מערך נתון
+export const renderAllCountries = (data) => {
+    document.querySelector("#id_row").innerHTML = ""; // לניקוי תצוגה קודמת
+    data.forEach(item => {
+        let country = new Country(item, "#id_row");
+    
+        
+        country.render();
+   
+    });
+};
 
-}
-export const UKBtn = () => {
-    document.querySelector("#ID_UK").addEventListener("click", () => {
-        console.log("hey555");
-        document.querySelector("#id_row").innerHTML = ""
-        let country = new Country(filterData[2] , "#id_row");
-       country.render()    })
+// פונקציה שמציגה מדינה מסוימת לפי האינדקס שלה במערך filterData
+const renderCountryByIndex = (index) => {
+    document.querySelector("#id_row").innerHTML = "";
+    let country = new Country(filterData[index], "#id_row");
+    console.log("חלק ראשון");
+    country.renderAfter();
+    console.log("חלק שני");
+};
 
-}
-export const BrazilBtn = () => {
-    document.querySelector("#ID_Brazil").addEventListener("click", () => {
-        console.log("hey555");
-        document.querySelector("#id_row").innerHTML = ""
-        let country = new Country(filterData[3] , "#id_row");
-       country.render()    })
-
-}
-export const ItalyBtn = () => {
-    document.querySelector("#ID_Italy").addEventListener("click", () => {
-        console.log("hey555");
-        document.querySelector("#id_row").innerHTML = ""
-        let country = new Country(filterData[4] , "#id_row");
-       country.render()    })
-
-}
-
-const creat1 =(_data)=>{
-console.log("hey555");
-
-
-let country = new Country(_data , "#id_row");
-country.render() }
+export { renderCountryByIndex };
