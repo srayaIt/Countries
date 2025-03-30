@@ -4,7 +4,7 @@ import { filterData, AllData } from "./app.js";
 
 
 export const option = async() => {  
-    console.log("אני משוגע");
+ 
     await doApi("https://restcountries.com/v3.1/independent?status=true"); // לוודא שהנתונים קיימים
     const selectElement = document.getElementById("id_select");
 
@@ -47,14 +47,22 @@ export const renderAllCountries = (data) => {
    
     });
 };
-
-// פונקציה שמציגה מדינה מסוימת לפי האינדקס שלה במערך filterData
 const renderCountryByIndex = (index) => {
+    const item1 = filterData[index]
+    console.log("vsp"+item1);
+    renderCountryByIndex1(item1)
+
+    renderAllCountries (filterData)
+}
+// פונקציה שמציגה מדינה מסוימת לפי האינדקס שלה במערך filterData
+export const renderCountryByIndex1 = (item1) => {
     document.querySelector("#id_row").innerHTML = "";
-    let country = new Country(filterData[index], "#id_row");
+    let country = new Country(item1, "#id_row");
     console.log("חלק ראשון");
     country.renderAfter();
     console.log("חלק שני");
+   
+
 };
 
 export { renderCountryByIndex };

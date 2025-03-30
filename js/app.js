@@ -1,5 +1,5 @@
 import Country from "./classCountry.js";
-import { initButtons, renderAllCountries } from "./button.js";
+import { initButtons, renderAllCountries  ,renderCountryByIndex1} from "./button.js";
 
 export const PreferredCountries = ["Israel", "United States", "United Kingdom", "Brazil", "Italy"];
 export let filterData = [];
@@ -25,6 +25,7 @@ const doApi = async (_url) => {
 
     filterData = data.filter(item => PreferredCountries.includes(item.name.common));
     console.log(filterData);
+   
 
     renderAllCountries(filterData);
 };
@@ -41,3 +42,34 @@ AllNames.sort()
         selectElement.appendChild(newOption);
     });
 };
+
+document.querySelector("#id_select").addEventListener("change", (event) => {
+  const selectedId = event.target.value; // במקום this.value
+
+  // מחפש במדינות את המדינה עם השם המתאים
+  const selectedItem = AllData.find(country => country.name.common === selectedId);
+
+  if (selectedItem) {
+      console.log("מי משוגע", selectedItem); // הדפסת האובייקט שנמצא
+      renderCountryByIndex1(selectedItem)
+      renderAllCountries (filterData)
+    } else {
+      console.log("המדינה לא נמצאה");
+  }
+});
+
+document.querySelector("#id_search").addEventListener("input", function () {
+  let inputValue = this.value.toLowerCase(); // הערך שהוקלד באותיות קטנות
+
+  // יצירת מערך חדש עם המדינות שמתחילות באות שהוקלדה
+  let filteredData = AllData.filter(country => 
+      country.name.common.toLowerCase().startsWith(inputValue)
+  );
+
+  // שליחת המערך החדש לפונקציה
+  // sendFilteredData(filteredData);
+  console.log(filteredData);
+  renderAllCountries (filteredData)
+  
+});
+
