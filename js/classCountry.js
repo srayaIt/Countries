@@ -1,9 +1,8 @@
 import { AllData} from "./app.js";
+import { showCountry } from "./button.js";
 class Country {
    
     constructor(_data, _parent) {
-        // console.log("enter to constructor");
-
         this.parent = _parent;
         this.name = _data.name.common;
         this.maps = _data.maps.googleMaps;
@@ -14,13 +13,9 @@ class Country {
         this.continent = _data.continents ? _data.continents[0] : "לא ידוע"; // יבשת
         this.languages = _data.languages ? Object.values(_data.languages).join(", ") : "לא ידוע"; // שפות רשמיות
         this.borders = _data.borders || []; // רשימת מדינות שכנות (אם קיימות)
-       // this.coordinatries = _data.latlng||"not found"; // רשימת מדינות שכנות (אם קיימות)
+     
     }
 
-    test(data){
-        console.log(data);
-        
-    }
 
     render() {
         const div = document.createElement("div");
@@ -36,8 +31,7 @@ class Country {
                 <button class="btn btn-success btn-info">🔍 הצג מידע</button>
             </div>
         `;
-    
-        // מאזין לכפתור מידע
+ // מאזין לכפתור מידע
         const button = div.querySelector(".btn-info");
         button.addEventListener("click", () => {
             this.renderAfter();
@@ -48,23 +42,18 @@ class Country {
         document.querySelector(this.parent).appendChild(div);
     }
     renderAfter() {
-             console.log(`${this.borders}מה קורה`);
-     
-        
-        const ipBorders = this.borders
-    .map(code => AllData.find(item => item.cca3 === code))
-    .filter(country => country !== undefined); // מסנן ערכים לא חוקיים
-
-console.log(ipBorders);
-
+        console.log(`${this.borders} מה קורה`);
+    
         const div = document.createElement("div");
         div.className = "modal fade";
         div.id = "countryModal";
         div.tabIndex = "-1";
         div.setAttribute("aria-labelledby", "countryModalLabel");
         div.setAttribute("aria-hidden", "true");
+    
         const [lat, lng] = this.latlng; // חילוץ קואורדינטות
         const mapUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=6&output=embed`;
+    
         div.innerHTML = `
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -78,9 +67,8 @@ console.log(ipBorders);
                         <p class="mt-3"><strong>עיר בירה:</strong> ${this.capital}</p>
                         <p><strong>יבשת:</strong> ${this.continent}</p>
                         <p><strong>שפה:</strong> ${this.languages}</p>
-                        ${this.borders.length > 0 ? `<p><strong>מדינות גובלות:</strong> ${this.borders.join(", ")}</p>` : "<p><strong>אין מדינות שכנות</strong></p>"}
-
-                        
+                        <p><strong>מדינות גובלות:</strong> <span id="border-countries">${this.borders.length > 0 ? "" : "אין מדינות שכנות"}</span></p>
+    
                         <!-- מפה מוטמעת -->
                         <div class="map-container mt-3">
                             <iframe 
@@ -93,22 +81,56 @@ console.log(ipBorders);
                                 src="${mapUrl}">
                             </iframe>
                         </div>
-    
                     </div>
                 </div>
             </div>
         `;
-    // console.log(ipBorders.name.common);
     
         document.body.appendChild(div);
     
         // מפעיל את המודל Bootstrap
         const modal = new bootstrap.Modal(div);
         modal.show();
+    
+        // אחרי שהמודל נטען – הוסף את הכפתורים של המדינות השכנות כאלמנטים
+        const neighborsContainer = this.neighbors();
+        document.querySelector("#border-countries").appendChild(neighborsContainer);
     }
-}    
-// const bordersArrFun =(borders)=>{
-
-// }
-
+    
+    neighbors() {
+        const container = document.createElement("div"); // יצירת אלמנט HTML שיכיל את הכפתורים
+    
+        const ipBorders = this.borders
+            .map(code => AllData.find(item => item.cca3 === code))
+            .filter(country => country !== undefined); // מסנן ערכים לא חוקיים
+    
+        console.log(ipBorders, "מערך עם אובייקטים");
+    
+        if (ipBorders.length === 0) {
+            container.textContent = "אין מדינות שכנות."; // אם אין מדינות שכנות, כותב טקסט
+        } else {
+            ipBorders.forEach(item2 => {
+                const button = document.createElement("button");
+                button.textContent = item2.name.common;
+                button.className = "btn btn-primary m-1"; // נותן סגנון לכפתור
+                button.addEventListener("click", () => {
+                    const oldModal = document.querySelector("#countryModal");
+                    if (oldModal) {
+                        const modalInstance = bootstrap.Modal.getInstance(oldModal);
+                        if (modalInstance) {
+                            modalInstance.hide(); // הסתרת המודל הישן
+                        }
+                        oldModal.remove(); // מחיקת ה-Modal מה-DOM
+                    }
+                    
+                    new Country(item2, "#id_row").renderAfter(); // קורא לפונקציה renderAfter של המדינה השכנה
+                });
+                container.appendChild(button); // מוסיף את הכפתור למיכל
+            });
+        }
+    
+        return container; // מחזיר את המיכל עם הכפתורים
+    }
+    
+}
 export default Country;
