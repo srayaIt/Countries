@@ -65,7 +65,8 @@ input {
 }
 .a{
     height: 1000px;
-    background-image: url(/img/עיצוב\ ללא\ שם\ \(1\).png); /* נתיב יחסי */
+    background-image: url('../img/עיצוב\ ללא\ שם\ \(1\).png'); /* נתיב יחסי */
+    /* background-image: url(img/עיצוב\ ללא\ שם\ \(1\).png); נתיב יחסי */
     background-size: cover; /* התאמה למסך */
     background-position: center; /* מיקום מרכזי */
     background-repeat: no-repeat;
