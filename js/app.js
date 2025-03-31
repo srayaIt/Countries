@@ -1,5 +1,5 @@
 import Country from "./classCountry.js";
-import { initButtons, renderAllCountries  ,renderCountryByIndex1} from "./button.js";
+import { listenerToBtns, renderAllCards  ,showCountry, option} from "./button.js";
 
 export const PreferredCountries = ["Israel", "United States", "United Kingdom", "Brazil", "Italy"];
 export let filterData = [];
@@ -10,8 +10,8 @@ let url = "https://restcountries.com/v3.1/independent?status=true";
 
 const init = async () => {
     await doApi(url);  // מחכים שהנתונים ייטענו
-    initButtons();
-    option();  // עכשיו option יכול להשתמש ב-AllNames
+    listenerToBtns(filterData, AllData);
+    option(AllNames); 
 };
 
 const doApi = async (_url) => {
@@ -27,21 +27,11 @@ const doApi = async (_url) => {
     console.log(filterData);
    
 
-    renderAllCountries(filterData);
+    renderAllCards(filterData);
 };
 
 init();
 
-const option = () => {  
-    const selectElement = document.getElementById("id_select");
-AllNames.sort()
-    AllNames.forEach(name => {  
-        const newOption = document.createElement("option");
-        newOption.value = name;  
-        newOption.textContent = name;
-        selectElement.appendChild(newOption);
-    });
-};
 
 document.querySelector("#id_select").addEventListener("change", (event) => {
   const selectedId = event.target.value; // במקום this.value
@@ -51,12 +41,17 @@ document.querySelector("#id_select").addEventListener("change", (event) => {
 
   if (selectedItem) {
       console.log("מי משוגע", selectedItem); // הדפסת האובייקט שנמצא
-      renderCountryByIndex1(selectedItem)
-      renderAllCountries (filterData)
+      showCountry(selectedItem)
+      renderAllCards (filterData)
     } else {
       console.log("המדינה לא נמצאה");
   }
 });
+
+// const test = (data, code) => {
+//   const country = data.find(item => === code);
+//   console.log(country);
+// };
 
 document.querySelector("#id_search").addEventListener("input", function () {
   let inputValue = this.value.toLowerCase(); // הערך שהוקלד באותיות קטנות
@@ -69,7 +64,7 @@ document.querySelector("#id_search").addEventListener("input", function () {
   // שליחת המערך החדש לפונקציה
   // sendFilteredData(filteredData);
   console.log(filteredData);
-  renderAllCountries (filteredData)
+  renderAllCards (filteredData)
   
 });
 

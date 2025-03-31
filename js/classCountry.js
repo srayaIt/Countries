@@ -2,7 +2,7 @@ import { AllData} from "./app.js";
 class Country {
    
     constructor(_data, _parent) {
-        console.log("enter to constructor");
+        // console.log("enter to constructor");
 
         this.parent = _parent;
         this.name = _data.name.common;
@@ -15,12 +15,17 @@ class Country {
         this.languages = _data.languages ? Object.values(_data.languages).join(", ") : "לא ידוע"; // שפות רשמיות
         this.borders = _data.borders || []; // רשימת מדינות שכנות (אם קיימות)
        // this.coordinatries = _data.latlng||"not found"; // רשימת מדינות שכנות (אם קיימות)
+    }
 
+    test(data){
+        console.log(data);
+        
     }
 
     render() {
         const div = document.createElement("div");
         div.className = "card"; 
+
         div.style.width = "100%"; 
 
         div.innerHTML = `
@@ -36,6 +41,8 @@ class Country {
         const button = div.querySelector(".btn-info");
         button.addEventListener("click", () => {
             this.renderAfter();
+            console.log(this.name.common);
+            
         });
     
         document.querySelector(this.parent).appendChild(div);
