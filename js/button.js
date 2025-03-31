@@ -23,7 +23,6 @@ const option = (allNames) => {
       const selectedItem = AllData.find(country => country.name.common === selectedId);
     
       if (selectedItem) {
-          console.log("מי משוגע", selectedItem); // הדפסת האובייקט שנמצא
           showCountry(selectedItem)
         
         } else {
